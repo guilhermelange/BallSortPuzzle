@@ -2,11 +2,11 @@ package br.com.model;
 
 import javax.swing.JPanel;
 
-public class Color {
+public class Cor {
     private String nome;
     private String hexCode;
 
-    public Color(String nome, String hexCode) {
+    public Cor(String nome, String hexCode) {
         this.nome = nome;
         this.hexCode = hexCode;
     }

@@ -1,12 +1,18 @@
 package br.com.ballsort;
 
+import br.com.util.Util;
+
 public class Sobre extends javax.swing.JFrame {
     public Sobre() {
         initComponents();
-        
+        TratarComponente();
+    }
+
+    private void TratarComponente() {
         JTextAreaSobre.setLineWrap(true);
         JTextAreaSobre.setWrapStyleWord(true);
         JTextAreaSobre.setBorder(null);
+        Util.centralizarFrame(this);
     }
 
     @SuppressWarnings("unchecked")
@@ -19,11 +25,13 @@ public class Sobre extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel1.setText("Sobre");
 
+        JTextAreaSobre.setEditable(false);
         JTextAreaSobre.setColumns(20);
-        JTextAreaSobre.setRows(5);
-        JTextAreaSobre.setText("Equipe: \n- Guilherme Luiz Lange (gui.luizlange@gmail.com)\n- Pedro Lucas Copatti (pedrolucascopatti@gmail.com)");
+        JTextAreaSobre.setRows(3);
+        JTextAreaSobre.setText("Equipe: \n  - Guilherme Luiz Lange (gui.luizlange@gmail.com)\n  - Pedro Lucas Copatti (pedrolucascopatti@gmail.com)");
         jScrollPane1.setViewportView(JTextAreaSobre);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -31,23 +39,23 @@ public class Sobre extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(41, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(174, 174, 174))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(37, 37, 37))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 344, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(162, 162, 162)
+                        .addComponent(jLabel1)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(34, 34, 34)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 93, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
