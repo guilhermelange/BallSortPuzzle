@@ -1,38 +1,38 @@
-package br.com.ballsort;
+package br.com.view;
 
 import br.com.util.Util;
 
-public class Sobre extends javax.swing.JFrame {
-    public Sobre() {
+public class About extends javax.swing.JFrame {
+    public About() {
         initComponents();
-        TratarComponente();
+        loadCustomComponents();
     }
 
-    private void TratarComponente() {
-        JTextAreaSobre.setLineWrap(true);
-        JTextAreaSobre.setWrapStyleWord(true);
-        JTextAreaSobre.setBorder(null);
-        Util.centralizarFrame(this);
+    private void loadCustomComponents() {
+        JTextAreaAbout.setLineWrap(true);
+        JTextAreaAbout.setWrapStyleWord(true);
+        JTextAreaAbout.setBorder(null);
+        Util.centerFrame(this);
     }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
+        jLabout = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        JTextAreaSobre = new javax.swing.JTextArea();
+        JTextAreaAbout = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel1.setText("Sobre");
+        jLabout.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabout.setText("Sobre");
 
-        JTextAreaSobre.setEditable(false);
-        JTextAreaSobre.setColumns(20);
-        JTextAreaSobre.setRows(3);
-        JTextAreaSobre.setText("Equipe: \n  - Guilherme Luiz Lange (gui.luizlange@gmail.com)\n  - Pedro Lucas Copatti (pedrolucascopatti@gmail.com)");
-        jScrollPane1.setViewportView(JTextAreaSobre);
+        JTextAreaAbout.setEditable(false);
+        JTextAreaAbout.setColumns(20);
+        JTextAreaAbout.setRows(3);
+        JTextAreaAbout.setText("Equipe: \n  - Guilherme Luiz Lange (gui.luizlange@gmail.com)\n  - Pedro Lucas Copatti (pedrolucascopatti@gmail.com)");
+        jScrollPane1.setViewportView(JTextAreaAbout);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -45,14 +45,14 @@ public class Sobre extends javax.swing.JFrame {
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 344, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(162, 162, 162)
-                        .addComponent(jLabel1)))
+                        .addComponent(jLabout)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
+                .addComponent(jLabout)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 93, Short.MAX_VALUE)
                 .addContainerGap())
@@ -62,8 +62,8 @@ public class Sobre extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextArea JTextAreaSobre;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JTextArea JTextAreaAbout;
+    private javax.swing.JLabel jLabout;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 }

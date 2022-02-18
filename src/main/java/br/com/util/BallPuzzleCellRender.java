@@ -1,6 +1,6 @@
 package br.com.util;
 
-import br.com.model.Bola;
+import br.com.model.Ball;
 import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -10,13 +10,11 @@ import java.awt.Color;
 import javax.swing.JLabel;
 import javax.swing.table.DefaultTableCellRenderer;
 
-public class TableCellRender extends DefaultTableCellRenderer implements Icon {
+public class BallPuzzleCellRender extends DefaultTableCellRenderer implements Icon {
     private static final int SIZE = 32;
-    private static final int HALF = SIZE / 2;
     Color color;
-    Color defaultColor = new Color(255,255,255);
 
-    public TableCellRender() {
+    public BallPuzzleCellRender() {
         this.setIcon(this);
         this.setHorizontalAlignment(JLabel.CENTER);
         this.color = null;
@@ -25,7 +23,7 @@ public class TableCellRender extends DefaultTableCellRenderer implements Icon {
     @Override
     protected void setValue(Object value) {
         if (value != null) {
-            Bola bola = (Bola) value;
+            Ball bola = (Ball) value;
             this.color = Color.decode(bola.getColor().getHexCode());
         } else {
             this.color = null;
@@ -37,11 +35,12 @@ public class TableCellRender extends DefaultTableCellRenderer implements Icon {
     public void paintIcon(Component c, Graphics g, int x, int y) {
         Graphics2D g2d = (Graphics2D) g;
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        Color colorIcon = (this.color != null) ? this.color : defaultColor;
-        g2d.setColor(colorIcon);
-        int d = SIZE;
-        int r = d / 2;
-        g2d.fillOval(x + HALF - r, y + HALF - r, 28, 28);
+        if (this.color != null) {
+            g2d.setColor(this.color);
+            g2d.fillOval(0,0, SIZE, SIZE);
+            g2d.setColor(Color.BLACK);
+            g2d.drawOval(0,0, SIZE, SIZE);
+        }
     }
 
     @Override

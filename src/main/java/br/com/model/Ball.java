@@ -7,8 +7,8 @@ import java.awt.*;
 import java.awt.geom.Ellipse2D;
 import java.util.Random;
 
-public class Bola extends JLabel {
-    private Cor color;
+public class Ball extends JLabel {
+    private BallColor color;
 
     @Override
     public void paint(Graphics g) {
@@ -17,17 +17,17 @@ public class Bola extends JLabel {
         g2d.draw(circleShape);
     }    
     
-    public Bola(Cor color) {
+    public Ball(BallColor color) {
         setSize(250, 250);
         setVisible(true);
         this.color = color;
     }
 
-    public Cor getColor() {
+    public BallColor getColor() {
         return color;
     }
 
-    public void setColor(Cor color) {
+    public void setColor(BallColor color) {
         this.color = color;
     }
 
