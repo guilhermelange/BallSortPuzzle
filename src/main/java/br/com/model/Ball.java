@@ -5,7 +5,6 @@ import java.awt.Graphics2D;
 import javax.swing.JLabel;
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
-import java.util.Random;
 
 public class Ball extends JLabel {
     private BallColor color;
@@ -33,12 +32,6 @@ public class Ball extends JLabel {
 
     @Override
     public String toString() {
-        return "Bola: " + color.getNome();
-    }
-
-    @Override
-    public int hashCode() {
-        Random Random = new Random();
-        return Random.ints().findFirst().getAsInt();
+        return color.getNome();
     }
 }

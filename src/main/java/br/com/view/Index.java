@@ -1,7 +1,9 @@
 package br.com.view;
 
-import br.com.model.BallColor;
+import br.com.algorithm.BallSortPuzzle;
 import br.com.plugins.ArrayStack;
+import br.com.plugins.BuscaLargura;
+import br.com.plugins.BuscaProfundidade;
 import br.com.util.Util;
 import java.awt.Dimension;
 import java.awt.HeadlessException;
@@ -11,13 +13,19 @@ import javax.swing.JFileChooser;
 
 public class Index extends javax.swing.JFrame {
     private File file = null;
-    private ArrayList<BallColor> colors = new ArrayList<BallColor>();
+    private final int MIN_WIDTH = 420;
     private ArrayList<ArrayStack> stacks = new ArrayList<ArrayStack>();
     
     public Index() {
         initComponents();
         Util.centerFrame(this);
         jLmensagem.setText("Carregue um arquivo de layout");
+    }
+    
+    public Index(ArrayList<ArrayStack> sucessor) {
+        initComponents();
+        Util.centerFrame(this);
+        Util.updateTable(jTableBall, sucessor);
     }
 
     @SuppressWarnings("unchecked")
@@ -28,7 +36,7 @@ public class Index extends javax.swing.JFrame {
         jTableBall = new javax.swing.JTable();
         jPfooter = new javax.swing.JPanel();
         jBload = new javax.swing.JButton();
-        jBlargura = new javax.swing.JButton();
+        jBwidth = new javax.swing.JButton();
         jBdepth = new javax.swing.JButton();
         jBabout = new javax.swing.JButton();
         jPheader = new javax.swing.JPanel();
@@ -67,15 +75,20 @@ public class Index extends javax.swing.JFrame {
         });
         jPfooter.add(jBload);
 
-        jBlargura.setText("Largura");
-        jBlargura.addActionListener(new java.awt.event.ActionListener() {
+        jBwidth.setText("Largura");
+        jBwidth.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jBlarguraActionPerformed(evt);
+                jBwidthActionPerformed(evt);
             }
         });
-        jPfooter.add(jBlargura);
+        jPfooter.add(jBwidth);
 
         jBdepth.setText("Profundidade");
+        jBdepth.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBdepthActionPerformed(evt);
+            }
+        });
         jPfooter.add(jBdepth);
 
         jBabout.setText("Sobre");
@@ -102,6 +115,7 @@ public class Index extends javax.swing.JFrame {
         
         if (file != null && file.exists()) {
             try {
+                stacks.clear();
                 Util.readFileToStack(file, stacks);
                 Util.updateTable(jTableBall, stacks);
                 resizeScreenImport();
@@ -115,7 +129,12 @@ public class Index extends javax.swing.JFrame {
     
     private void resizeScreenImport() {
         jLmensagem.setText("Selecione o método de tentativa");
-        Dimension dimension = new Dimension((stacks.size() * 36)+ 36*2, this.getHeight());
+        
+        int columnWidth = jTableBall.getColumnModel().getColumn(0).getWidth();
+        int columnCount = jTableBall.getColumnModel().getColumnCount();
+        int newWidth = (columnWidth * columnCount) + 20;
+        newWidth = (newWidth < MIN_WIDTH) ? MIN_WIDTH : newWidth;
+        Dimension dimension = new Dimension(newWidth, this.getHeight());
         this.setPreferredSize(dimension);
         this.setSize(dimension);
     }
@@ -128,14 +147,24 @@ public class Index extends javax.swing.JFrame {
         return jFile;
     }
     
-    private void jBlarguraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBlarguraActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jBlarguraActionPerformed
+    private void jBwidthActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBwidthActionPerformed
+        BallSortPuzzle inicialSet = new BallSortPuzzle(stacks);
+        BuscaLargura<BallSortPuzzle> search = new BuscaLargura<BallSortPuzzle>();
+        jLmensagem.setText("Carregando busca por Largura");
+        (new Result(search, inicialSet)).setVisible(true);
+    }//GEN-LAST:event_jBwidthActionPerformed
 
     private void jBaboutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBaboutActionPerformed
         About sobre = new About();
         sobre.setVisible(true);
     }//GEN-LAST:event_jBaboutActionPerformed
+
+    private void jBdepthActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBdepthActionPerformed
+        BallSortPuzzle inicialSet = new BallSortPuzzle(stacks);
+        BuscaProfundidade<BallSortPuzzle> search = new BuscaProfundidade<BallSortPuzzle>();
+        jLmensagem.setText("Carregando busca por Profundidade");
+        (new Result(search, inicialSet)).setVisible(true);
+    }//GEN-LAST:event_jBdepthActionPerformed
 
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -148,8 +177,8 @@ public class Index extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBabout;
     private javax.swing.JButton jBdepth;
-    private javax.swing.JButton jBlargura;
     private javax.swing.JButton jBload;
+    private javax.swing.JButton jBwidth;
     private javax.swing.JLabel jLmensagem;
     private javax.swing.JPanel jPfooter;
     private javax.swing.JPanel jPheader;

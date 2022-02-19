@@ -1,14 +1,16 @@
 package br.com.model;
 
-import javax.swing.JPanel;
+import java.awt.Color;
 
 public class BallColor {
     private String nome;
     private String hexCode;
+    private Color color;
 
     public BallColor(String nome, String hexCode) {
         this.nome = nome;
         this.hexCode = hexCode;
+        this.color = Color.decode(hexCode);
     }
 
     public void setHexCode(String hexCode) {
@@ -26,6 +28,10 @@ public class BallColor {
     public String getNome() {
         return nome;
     }       
+
+    public Color getColor() {
+        return color;
+    }
 
     @Override
     public String toString() {

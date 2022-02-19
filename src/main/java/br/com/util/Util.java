@@ -1,9 +1,9 @@
 package br.com.util;
 
+import br.com.exception.AppError;
 import br.com.model.Ball;
 import br.com.model.BallColor;
 import br.com.plugins.ArrayStack;
-import java.awt.HeadlessException;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -16,13 +16,13 @@ import javax.swing.table.TableColumn;
 
 public class Util {
     public static void updateTable(JTable table, ArrayList<ArrayStack> stacks) {
-        DefaultTableModel model = new BallPuzzleTableModel(stacks);;
+        DefaultTableModel model = new BallPuzzleTableModel(stacks);
         table.setModel(model);
         table.setTableHeader(null);
         table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         BallPuzzleCellRender tableCellRender = new BallPuzzleCellRender();
         
-        for (int i = 0; i < stacks.size() + 2; i++) {
+        for (int i = 0; i < stacks.size(); i++) {
             TableColumn column = table.getColumnModel().getColumn(i);
             column.setPreferredWidth(35);
             column.setWidth(35);
@@ -40,7 +40,7 @@ public class Util {
     }
     
     // Read file - Begin
-    public static ArrayList<ArrayStack> readFileToStack(File file, ArrayList<ArrayStack> stacks) throws HeadlessException {
+    public static ArrayList<ArrayStack> readFileToStack(File file, ArrayList<ArrayStack> stacks) throws Exception {
         ArrayList<BallColor> colors = new ArrayList<>();
         
         Scanner fileReader;
@@ -54,20 +54,28 @@ public class Util {
                     case "C" -> colors.add(new BallColor(split[1], split[2]));
                     case "T" -> {
                         ArrayStack stack = new ArrayStack();
-                        readField(stack, colors, split[1]);
-                        readField(stack, colors, split[2]);
-                        readField(stack, colors, split[3]);
-                        readField(stack, colors, split[4]);
+                        
+                        for (int i = 1; i < 5; i++) {
+                            try {
+                                readField(stack, colors, split[i]);
+                            } catch (Exception e) {}
+                        }
                         
                         stacks.add(stack);
                     }
                     default -> throw new Exception("Registro " + split[0] + " inválido");
                 }
             }
+            
+            ArrayStack stack = new ArrayStack();
+            stacks.add(stack);
+
+            stack = new ArrayStack();
+            stacks.add(stack);
         } catch (FileNotFoundException ex) {
-            throw new Error("Arquivo não localizado");
+            throw new AppError("Arquivo não localizado");
         } catch (Exception x) {
-            throw new Error(x.getMessage());
+            throw new AppError(x.getMessage());
         }
         return stacks;
     }
@@ -75,7 +83,7 @@ public class Util {
     private static void readField(ArrayStack stack, ArrayList<BallColor> colors, String colorName) {
         BallColor colorByName = getColorByName(colors, colorName);
         if (colorByName == null) {
-            throw new Error("Cor " + colorName + " inválida");
+            throw new AppError("Cor " + colorName + " inválida");
         } else {
             Ball bola = new Ball(colorByName);
             stack.push(bola);

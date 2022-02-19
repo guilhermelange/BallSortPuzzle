@@ -20,14 +20,14 @@ public class BallPuzzleTableModel extends DefaultTableModel {
     private void addColumnsData(ArrayList<ArrayStack> stacks) {
         stacks.forEach(stack -> {
             Object[] arrayStacks = stack.getArray();
-            Ball[] bolas = new Ball[arrayStacks.length];
-            for (int i = 0; i < arrayStacks.length; i++) {
-                bolas[i] = (Ball) arrayStacks[i];
+            Ball[] bolas = new Ball[SIZE];
+            int count = 0;
+            for (int i = SIZE - 1; i >= 0; i--) {
+                bolas[count++] = (Ball) arrayStacks[i];
             }
             this.addColumn("", bolas);
         });
-        this.addColumn("");
-        this.addColumn("");
+        
         this.setRowCount(4);
     }
 }

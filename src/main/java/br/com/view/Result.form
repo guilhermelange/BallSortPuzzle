@@ -2,7 +2,7 @@
 
 <Form version="1.9" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
   <Properties>
-    <Property name="defaultCloseOperation" type="int" value="3"/>
+    <Property name="defaultCloseOperation" type="int" value="2"/>
   </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
@@ -72,36 +72,36 @@
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.DesignFlowLayout"/>
       <SubComponents>
-        <Component class="javax.swing.JButton" name="jBload">
+        <Component class="javax.swing.JButton" name="jBfirst">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Carregar"/>
+            <Property name="text" type="java.lang.String" value="|&lt;&lt;"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jBloadActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jBfirstActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="jBwidth">
+        <Component class="javax.swing.JButton" name="jBback">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Largura"/>
+            <Property name="text" type="java.lang.String" value="&lt;&lt;"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jBwidthActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jBbackActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="jBdepth">
+        <Component class="javax.swing.JButton" name="jBnext">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Profundidade"/>
+            <Property name="text" type="java.lang.String" value="&gt;&gt;"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jBdepthActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jBnextActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="jBabout">
+        <Component class="javax.swing.JButton" name="jBlast">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Sobre"/>
+            <Property name="text" type="java.lang.String" value="&gt;&gt;|"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jBaboutActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jBlastActionPerformed"/>
           </Events>
         </Component>
       </SubComponents>

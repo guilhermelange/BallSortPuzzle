@@ -1,8 +1,10 @@
 package br.com.plugins;
 
-public class ArrayStack<E> implements Stack<E> {
+import java.util.Arrays;
 
-	public static final int CAPACITY = 1000;
+public class ArrayStack<E> implements Stack<E>, Cloneable {
+
+	public static final int CAPACITY = 4;
 	private E[] data;
 	private int t = -1;
 
@@ -58,4 +60,15 @@ public class ArrayStack<E> implements Stack<E> {
         public E[] getArray() {
             return data;
 	}
+
+        @Override
+        public Object clone(){
+            ArrayStack<E> v = new ArrayStack<E>();
+            v.data = Arrays.copyOf(data, CAPACITY);
+            v.t = t;
+            return v;
+        }
+        
+        
+        
 }

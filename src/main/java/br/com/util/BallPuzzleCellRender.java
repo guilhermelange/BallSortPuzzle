@@ -23,8 +23,8 @@ public class BallPuzzleCellRender extends DefaultTableCellRenderer implements Ic
     @Override
     protected void setValue(Object value) {
         if (value != null) {
-            Ball bola = (Ball) value;
-            this.color = Color.decode(bola.getColor().getHexCode());
+            Ball ball = (Ball) value;
+            this.color = ball.getColor().getColor();
         } else {
             this.color = null;
         }
