@@ -67,44 +67,41 @@ public class BallSortPuzzle implements Estado {
         
         for (int i = 0; i < stacks.size(); i++) { 
             ArrayStack stack = stacks.get(i);
-            // Valida Stack bola disponível
+            // Valida tubo para jogada
             if (stack.size() > 0 && !stackCompleted(stack)) {
                 Ball ball = (Ball) stack.top();
                 String hexColor = ball.getColor().getHexCode();
                 
-                // valida jogadas possíveis
+                // Verifica tubos disponíveis
                 for (int j = 0; j < stacks.size(); j++) { 
                     ArrayStack otherStack = stacks.get(j);
                     if (otherStack != stack) {
                         Ball otherBall = (Ball) otherStack.top();
                         String currentHexCode = (otherBall != null) ? otherBall.getColor().getHexCode() : null;
                         boolean isValidPlay = false;
-                        
-                        if (stack.size() == 1 && otherStack.size() == 0) { // Não trocar de tubos vazios
+
+                        if (stack.size() == 1 && otherStack.size() == 0) { // Não gera uma nova possibilidade
                             isValidPlay = false;
-                        } else if (otherStack.size() == 0) {
+                        } else 
+                        if (otherStack.size() == 0) {
                             isValidPlay = true;
                         } else if (otherStack.size() < 4 && currentHexCode.equals(hexColor)) {
                            isValidPlay = true;
                         }
-                        
+
                         if (isValidPlay) { 
                             ArrayList<ArrayStack> stacksClone = new ArrayList<>();
                             for (ArrayStack stackCloneItem : stacks) {
                                 ArrayStack clone = (ArrayStack) stackCloneItem.clone();
                                 stacksClone.add(clone);
                             }
-                            
+
                             Ball ballTemp = (Ball) stacksClone.get(i).pop();
                             stacksClone.get(j).push(ballTemp);
-                            
+
                             if (lastStack != null && lastStack.equals(stacksClone.get(j))) {
-                                // nada
-                            } 
-//                            else if (stack.equals(stacksClone.get(j)) && i == j) {
-//                                // nada
-//                            }
-                            else {
+                                // Não gera uma nova possibilidade
+                            } else {
                                 BallSortPuzzle newSortPuzzle = new BallSortPuzzle(stacksClone);
                                 newSortPuzzle.lastStack = stack;
                                 suc.add(newSortPuzzle);
