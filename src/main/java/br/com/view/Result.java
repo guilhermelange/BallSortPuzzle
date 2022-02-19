@@ -25,17 +25,18 @@ public class Result extends javax.swing.JFrame {
             Util.message("Não foi possível localizar uma solução");
         }
         long milisseconds = (System.currentTimeMillis() - timeInit);
-        double seconds = milisseconds / 1000;
-        
-        verifyExecution(result, seconds);
+        verifyExecution(result, milisseconds);
         verifyButtonsVisibility();
     }
     
-    private void verifyExecution(Nodo result, double seconds) {
+    private void verifyExecution(Nodo result, long milisseconds) {
+        double seconds = milisseconds / 1000;
+        String timeStringComp = (seconds > 0) ? seconds + "s" : milisseconds + "ms";
         if (result == null) {
-            jLmensagem.setText("Solução não localizada - Tempo: " + seconds + "s");
+            
+            jLmensagem.setText("Solução não localizada - Tempo: " + timeStringComp);
         } else {
-            jLmensagem.setText("Profundidade: " + result.getProfundidade() + " - Tempo: " + seconds + "s");
+            jLmensagem.setText("Profundidade: " + result.getProfundidade() + " - Tempo: " + timeStringComp);
             Nodo w = result;
             while (w != null) {
                 BallSortPuzzle th = (BallSortPuzzle) w.getEstado();

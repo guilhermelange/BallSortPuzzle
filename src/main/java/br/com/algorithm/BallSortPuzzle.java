@@ -115,7 +115,7 @@ public class BallSortPuzzle implements Estado {
             }
         }
         
-        System.out.println(count);
+        System.out.println("Possibilidades: " + count);
         return suc;
     }
 
