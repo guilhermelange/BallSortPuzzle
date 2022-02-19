@@ -41,18 +41,37 @@ public class BallSortPuzzle implements Estado {
         } else if (stack.size() != SIZE) {
             return false;
         } else {
-            String sessionHex = null;
-            Object[] stackArray = stack.getArray();
-            for (int i = 0; i < stack.size(); i++) {
-                Ball currentBall = (Ball) stackArray[i];
-                String hexCode = currentBall.getColor().getHexCode();
-                if (!hexCode.equals(sessionHex) && sessionHex != null) {
-                    return false;
-                }
-                sessionHex = hexCode;
-            }
+            return isHomogeneous(stack);
         }
         return true;
+    }
+
+    private boolean isHomogeneous(ArrayStack stack) {
+        String sessionHex = null;
+        Object[] stackArray = stack.getArray();
+        for (int i = 0; i < stack.size(); i++) {
+            Ball currentBall = (Ball) stackArray[i];
+            String hexCode = currentBall.getColor().getHexCode();
+            if (!hexCode.equals(sessionHex) && sessionHex != null) {
+                return false;
+            }
+            sessionHex = hexCode;
+        }
+        return true;
+    }
+    
+    private boolean stackAvailable(ArrayStack stack) {
+        if (stackCompleted(stack)) {
+            return false;
+        } else if (stack.size() == 0) {
+            return false;
+        } else {
+            boolean homogeneous = isHomogeneous(stack);
+            if (homogeneous && stack.size() >= 3) {
+                return false;
+            }
+            return true;
+        }
     }
 
     @Override
@@ -68,7 +87,7 @@ public class BallSortPuzzle implements Estado {
         for (int i = 0; i < stacks.size(); i++) { 
             ArrayStack stack = stacks.get(i);
             // Valida tubo para jogada
-            if (stack.size() > 0 && !stackCompleted(stack)) {
+            if (stackAvailable(stack)) {
                 Ball ball = (Ball) stack.top();
                 String hexColor = ball.getColor().getHexCode();
                 
@@ -80,7 +99,7 @@ public class BallSortPuzzle implements Estado {
                         String currentHexCode = (otherBall != null) ? otherBall.getColor().getHexCode() : null;
                         boolean isValidPlay = false;
 
-                        if (stack.size() == 1 && otherStack.size() == 0) { // Não gera uma nova possibilidade
+                        if (stack.size() == 1 && otherStack.size() == 0) {// Não gera uma nova possibilidade
                             isValidPlay = false;
                         } else 
                         if (otherStack.size() == 0) {
