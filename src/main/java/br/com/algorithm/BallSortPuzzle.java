@@ -10,10 +10,12 @@ import java.util.List;
 public class BallSortPuzzle implements Estado {
     private ArrayList<ArrayStack> stacks = null;
     private int SIZE = 4;
-//    private static int count = 0; 
+    private static int count = 0;
+    private ArrayStack lastStack;
     
     public BallSortPuzzle(ArrayList<ArrayStack> stacks) {
         this.stacks = stacks;
+        this.lastStack = null;
     }
 
     public ArrayList<ArrayStack> getStacks() {
@@ -59,7 +61,8 @@ public class BallSortPuzzle implements Estado {
     }
 
     @Override
-    public List<BallSortPuzzle>  sucessores() {
+    public List<BallSortPuzzle> sucessores() {
+        count++;
         List<BallSortPuzzle> suc = new LinkedList<>();
         
         for (int i = 0; i < stacks.size(); i++) { 
@@ -68,22 +71,24 @@ public class BallSortPuzzle implements Estado {
             if (stack.size() > 0 && !stackCompleted(stack)) {
                 Ball ball = (Ball) stack.top();
                 String hexColor = ball.getColor().getHexCode();
+                
                 // valida jogadas possíveis
                 for (int j = 0; j < stacks.size(); j++) { 
                     ArrayStack otherStack = stacks.get(j);
                     if (otherStack != stack) {
-                        
                         Ball otherBall = (Ball) otherStack.top();
                         String currentHexCode = (otherBall != null) ? otherBall.getColor().getHexCode() : null;
                         boolean isValidPlay = false;
                         
-                        if (otherStack.size() == 0) {
+                        if (stack.size() == 1 && otherStack.size() == 0) { // Não trocar de tubos vazios
+                            isValidPlay = false;
+                        } else if (otherStack.size() == 0) {
                             isValidPlay = true;
                         } else if (otherStack.size() < 4 && currentHexCode.equals(hexColor)) {
                            isValidPlay = true;
                         }
                         
-                        if (isValidPlay) {
+                        if (isValidPlay) { 
                             ArrayList<ArrayStack> stacksClone = new ArrayList<>();
                             for (ArrayStack stackCloneItem : stacks) {
                                 ArrayStack clone = (ArrayStack) stackCloneItem.clone();
@@ -92,19 +97,25 @@ public class BallSortPuzzle implements Estado {
                             
                             Ball ballTemp = (Ball) stacksClone.get(i).pop();
                             stacksClone.get(j).push(ballTemp);
-                            suc.add(new BallSortPuzzle(stacksClone));
+                            
+                            if (lastStack != null && lastStack.equals(stacksClone.get(j))) {
+                                // nada
+                            } 
+//                            else if (stack.equals(stacksClone.get(j)) && i == j) {
+//                                // nada
+//                            }
+                            else {
+                                BallSortPuzzle newSortPuzzle = new BallSortPuzzle(stacksClone);
+                                newSortPuzzle.lastStack = stack;
+                                suc.add(newSortPuzzle);
+                            }
                         }
                     }
                 }
             }
         }
         
-//        count++;
-//        System.out.println("count: " + count + " Entrada: " + stacks);
-//        for (BallSortPuzzle ballSortPuzzle : suc) {
-//            System.out.println("ballSortPuzzle("+ ballSortPuzzle.ehMeta()+"): " + ballSortPuzzle.getStacks());
-//        }
-//        System.out.println("");
+        System.out.println(count);
         return suc;
     }
 

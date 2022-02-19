@@ -20,6 +20,8 @@ public class Index extends javax.swing.JFrame {
         initComponents();
         Util.centerFrame(this);
         jLmensagem.setText("Carregue um arquivo de layout");
+        jBdepth.setEnabled(false);
+        jBwidth.setEnabled(false);
     }
     
     public Index(ArrayList<ArrayStack> sucessor) {
@@ -119,6 +121,8 @@ public class Index extends javax.swing.JFrame {
                 Util.readFileToStack(file, stacks);
                 Util.updateTable(jTableBall, stacks);
                 resizeScreenImport();
+                jBdepth.setEnabled(true);
+                jBwidth.setEnabled(true);
             } catch (Exception e) {
                 Util.message("Erro na leitura: " + e.getMessage());
             }
@@ -129,7 +133,6 @@ public class Index extends javax.swing.JFrame {
     
     private void resizeScreenImport() {
         jLmensagem.setText("Selecione o método de tentativa");
-        
         int columnWidth = jTableBall.getColumnModel().getColumn(0).getWidth();
         int columnCount = jTableBall.getColumnModel().getColumnCount();
         int newWidth = (columnWidth * columnCount) + 20;
@@ -151,6 +154,7 @@ public class Index extends javax.swing.JFrame {
         BallSortPuzzle inicialSet = new BallSortPuzzle(stacks);
         BuscaLargura<BallSortPuzzle> search = new BuscaLargura<BallSortPuzzle>();
         jLmensagem.setText("Carregando busca por Largura");
+        Util.message("Carregando busca por Largura");
         (new Result(search, inicialSet)).setVisible(true);
     }//GEN-LAST:event_jBwidthActionPerformed
 
@@ -163,6 +167,7 @@ public class Index extends javax.swing.JFrame {
         BallSortPuzzle inicialSet = new BallSortPuzzle(stacks);
         BuscaProfundidade<BallSortPuzzle> search = new BuscaProfundidade<BallSortPuzzle>();
         jLmensagem.setText("Carregando busca por Profundidade");
+        Util.message("Carregando busca por Profundidade");
         (new Result(search, inicialSet)).setVisible(true);
     }//GEN-LAST:event_jBdepthActionPerformed
 

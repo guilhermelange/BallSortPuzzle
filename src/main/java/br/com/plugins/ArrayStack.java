@@ -68,7 +68,11 @@ public class ArrayStack<E> implements Stack<E>, Cloneable {
             v.t = t;
             return v;
         }
-        
-        
+
+        @Override
+        public boolean equals(Object obj) {
+            ArrayStack<E> other = (ArrayStack) obj;
+            return other.toString().equals(this.toString());
+        }
         
 }
