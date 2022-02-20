@@ -4,18 +4,16 @@ import br.com.plugins.ArrayStack;
 import br.com.plugins.Estado;
 import java.util.ArrayList;
 import br.com.model.Ball;
+import br.com.util.Config;
 import java.util.LinkedList;
 import java.util.List;
 
 public class BallSortPuzzle implements Estado {
     private ArrayList<ArrayStack> stacks = null;
-    private int SIZE = 4;
-    private static int count = 0;
-    private ArrayStack lastStack;
+    private int SIZE = Config.STACK_CAP;
     
     public BallSortPuzzle(ArrayList<ArrayStack> stacks) {
         this.stacks = stacks;
-        this.lastStack = null;
     }
 
     public ArrayList<ArrayStack> getStacks() {
@@ -67,7 +65,7 @@ public class BallSortPuzzle implements Estado {
             return false;
         } else {
             boolean homogeneous = isHomogeneous(stack);
-            if (homogeneous && stack.size() >= 3) {
+            if (homogeneous && stack.size() >= SIZE-1) {
                 return false;
             }
             return true;
@@ -81,7 +79,6 @@ public class BallSortPuzzle implements Estado {
 
     @Override
     public List<BallSortPuzzle> sucessores() {
-        count++;
         List<BallSortPuzzle> suc = new LinkedList<>();
         
         for (int i = 0; i < stacks.size(); i++) { 
@@ -101,10 +98,9 @@ public class BallSortPuzzle implements Estado {
 
                         if (stack.size() == 1 && otherStack.size() == 0) {// Não gera uma nova possibilidade
                             isValidPlay = false;
-                        } else 
-                        if (otherStack.size() == 0) {
+                        } else if (otherStack.size() == 0) {
                             isValidPlay = true;
-                        } else if (otherStack.size() < 4 && currentHexCode.equals(hexColor)) {
+                        } else if (otherStack.size() < SIZE && currentHexCode.equals(hexColor)) {
                            isValidPlay = true;
                         }
 
@@ -115,23 +111,15 @@ public class BallSortPuzzle implements Estado {
                                 stacksClone.add(clone);
                             }
 
-                            Ball ballTemp = (Ball) stacksClone.get(i).pop();
-                            stacksClone.get(j).push(ballTemp);
-
-                            if (lastStack != null && lastStack.equals(stacksClone.get(j))) {
-                                // Não gera uma nova possibilidade
-                            } else {
-                                BallSortPuzzle newSortPuzzle = new BallSortPuzzle(stacksClone);
-                                newSortPuzzle.lastStack = stack;
-                                suc.add(newSortPuzzle);
-                            }
+                            stacksClone.get(j).push(stacksClone.get(i).pop());
+                            BallSortPuzzle newSortPuzzle = new BallSortPuzzle(stacksClone);
+                            suc.add(newSortPuzzle);
                         }
                     }
                 }
             }
         }
         
-        System.out.println("Possibilidades: " + count);
         return suc;
     }
 
@@ -144,4 +132,12 @@ public class BallSortPuzzle implements Estado {
     public int hashCode() {
         return toString().hashCode();
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        BallSortPuzzle other = (BallSortPuzzle) obj;
+        return other.toString().equals(this.toString());
+    }
+    
+    
 }

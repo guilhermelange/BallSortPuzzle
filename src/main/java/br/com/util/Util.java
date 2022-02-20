@@ -24,11 +24,11 @@ public class Util {
         
         for (int i = 0; i < stacks.size(); i++) {
             TableColumn column = table.getColumnModel().getColumn(i);
-            column.setPreferredWidth(35);
-            column.setWidth(35);
+            column.setPreferredWidth(Config.COLUMN_WIDTH);
+            column.setWidth(Config.COLUMN_WIDTH);
             column.setCellRenderer(tableCellRender);
         }
-        table.setRowHeight(35);
+        table.setRowHeight(Config.COLUMN_WIDTH);
     }
     
     public static void centerFrame(JFrame frame) {
@@ -55,7 +55,7 @@ public class Util {
                     case "T" -> {
                         ArrayStack stack = new ArrayStack();
                         
-                        for (int i = 1; i < 5; i++) {
+                        for (int i = 1; i < (Config.STACK_CAP+1); i++) {
                             try {
                                 readField(stack, colors, split[i]);
                             } catch (Exception e) {}

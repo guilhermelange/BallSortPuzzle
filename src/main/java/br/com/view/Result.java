@@ -12,6 +12,8 @@ public class Result extends javax.swing.JFrame {
     private ArrayList<BallSortPuzzle> solutionStacks = new ArrayList();
     private int indexSolution = -1;
     private int sizeSolution = 0;
+    private String tempoExecucao = "";
+    private int profundidade = 0;
     
     public Result(Busca<BallSortPuzzle> search, BallSortPuzzle inicialSet) {
         initComponents();
@@ -26,27 +28,28 @@ public class Result extends javax.swing.JFrame {
         }
         long milisseconds = (System.currentTimeMillis() - timeInit);
         verifyExecution(result, milisseconds);
-        verifyButtonsVisibility();
+        verifyComponentsUpdate();
     }
     
     private void verifyExecution(Nodo result, long milisseconds) {
         double seconds = milisseconds / 1000;
-        String timeStringComp = (seconds > 0) ? seconds + "s" : milisseconds + "ms";
+        tempoExecucao = (seconds > 0) ? seconds + "s" : milisseconds + "ms";
         if (result == null) {
-            
-            jLmensagem.setText("Solução não localizada - Tempo: " + timeStringComp);
+            jLmensagem.setText("Solução não localizada - Tempo: " + tempoExecucao);
         } else {
-            jLmensagem.setText("Profundidade: " + result.getProfundidade() + " - Tempo: " + timeStringComp);
+            indexSolution = 0;
+            profundidade = result.getProfundidade();
             Nodo w = result;
             while (w != null) {
                 BallSortPuzzle th = (BallSortPuzzle) w.getEstado();
                 solutionStacks.add(0, th);
                 w = w.getPai();
             }
-            indexSolution = 0;
+            
             sizeSolution = solutionStacks.size();
             Util.updateTable(jTableBall, solutionStacks.get(indexSolution).getStacks());
             resizeScreen();
+            verifyComponentsUpdate();
         }
     }
     
@@ -60,7 +63,7 @@ public class Result extends javax.swing.JFrame {
         this.setSize(dimension);
     }
     
-    private void verifyButtonsVisibility() {
+    private void verifyComponentsUpdate() {
         if (indexSolution == -1) {
             jBback.setEnabled(false);
             jBfirst.setEnabled(false);
@@ -82,6 +85,11 @@ public class Result extends javax.swing.JFrame {
             jBlast.setEnabled(true);
             jBnext.setEnabled(true);
         }
+
+        jLmensagem.setText(String.format("Profundidade: %s - Tempo: %s - Passo: %d", 
+                      profundidade, 
+                      tempoExecucao, 
+                      indexSolution));
     }
 
     @SuppressWarnings("unchecked")
@@ -168,7 +176,7 @@ public class Result extends javax.swing.JFrame {
     private void jBfirstActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBfirstActionPerformed
         indexSolution = 0;
         Util.updateTable(jTableBall, solutionStacks.get(indexSolution).getStacks());
-        verifyButtonsVisibility();
+        verifyComponentsUpdate();
     }//GEN-LAST:event_jBfirstActionPerformed
     
     private void jBbackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBbackActionPerformed
@@ -176,14 +184,13 @@ public class Result extends javax.swing.JFrame {
             indexSolution--;
             Util.updateTable(jTableBall, solutionStacks.get(indexSolution).getStacks());
         }
-        
-        verifyButtonsVisibility();
+        verifyComponentsUpdate();
     }//GEN-LAST:event_jBbackActionPerformed
 
     private void jBlastActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBlastActionPerformed
         indexSolution = sizeSolution-1;
         Util.updateTable(jTableBall, solutionStacks.get(indexSolution).getStacks());
-        verifyButtonsVisibility();
+        verifyComponentsUpdate();
     }//GEN-LAST:event_jBlastActionPerformed
 
     private void jBnextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBnextActionPerformed
@@ -191,7 +198,7 @@ public class Result extends javax.swing.JFrame {
             indexSolution++;
             Util.updateTable(jTableBall, solutionStacks.get(indexSolution).getStacks());
         }
-        verifyButtonsVisibility();
+        verifyComponentsUpdate();
     }//GEN-LAST:event_jBnextActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

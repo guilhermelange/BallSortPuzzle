@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
 
 public class BallPuzzleTableModel extends DefaultTableModel {
-    private final int SIZE = 4;
+    private final int SIZE = Config.STACK_CAP;
     
     @Override
     public boolean isCellEditable(int row, int column) {

@@ -1,10 +1,11 @@
 package br.com.plugins;
 
+import br.com.util.Config;
 import java.util.Arrays;
 
 public class ArrayStack<E> implements Stack<E>, Cloneable {
 
-	public static final int CAPACITY = 4;
+	public static final int CAPACITY = Config.STACK_CAP;
 	private E[] data;
 	private int t = -1;
 

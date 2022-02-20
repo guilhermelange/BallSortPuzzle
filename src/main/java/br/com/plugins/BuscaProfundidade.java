@@ -1,5 +1,6 @@
 package br.com.plugins;
 
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -14,7 +15,8 @@ import java.util.List;
  *  
  */
 public class BuscaProfundidade<E extends Estado> extends Busca<E> {
-
+    private static HashSet<Estado> logs = new HashSet();
+    private static long count = 0;
     protected int profMax = 40;
 
     /** busca sem mostrar status */
@@ -49,6 +51,13 @@ public class BuscaProfundidade<E extends Estado> extends Busca<E> {
         while (!parar && abertos.size() > 0) {
             
             Nodo n = abertos.remove(0);
+            Estado estado = n.estado;
+            
+            if (logs.contains(estado)) {
+                continue;
+            }
+            
+            System.out.println("Possibilidades: " + (++count));
             status.explorando(n,abertos.size());
             if (n.estado.ehMeta()) {
                 status.termina(true);
@@ -56,6 +65,7 @@ public class BuscaProfundidade<E extends Estado> extends Busca<E> {
             }
         
             if (n.getProfundidade() < profMax) {
+                logs.add(estado);
                 abertos.addAll( 0, sucessores(n) );
             }            
         }

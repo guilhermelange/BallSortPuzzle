@@ -1,5 +1,6 @@
 package br.com.plugins;
 
+import java.util.HashSet;
 import java.util.PriorityQueue;
 import java.util.Queue;
 
@@ -13,7 +14,8 @@ import java.util.Queue;
  *  
  */
 public class BuscaLargura<E extends Estado> extends Busca<E> {
-    
+    private static HashSet<Estado> logs = new HashSet();
+    private static long count = 0;
     /** busca sem mostrar status */
     public BuscaLargura() {
     }
@@ -26,23 +28,28 @@ public class BuscaLargura<E extends Estado> extends Busca<E> {
     public Nodo busca(E inicial) {
         status.inicia();
         initFechados();
-       
         Queue<Nodo> abertos = new PriorityQueue<Nodo>();
-        
-        abertos.add(new Nodo(inicial, null));
+        Nodo nodoInicial = new Nodo(inicial, null);
+        abertos.add(nodoInicial);
         
         while (!parar && abertos.size() > 0) {
-            
-            //System.out.print("abertos "+abertos);
             Nodo n = abertos.remove();
-            //System.out.println("pegando "+n);
+            Estado estado = n.estado;
+            
+            if (logs.contains(estado)) {
+                continue;
+            }
+            
+            System.out.println("Possibilidades: " + (++count));
             status.explorando(n, abertos.size());
+
             if (n.estado.ehMeta()) {
                 status.termina(true);
                 return n;
             }
-                        
-            abertos.addAll( sucessores(n) );
+
+            logs.add(estado);
+            abertos.addAll(sucessores(n));   
         }
         status.termina(false);
         return null;

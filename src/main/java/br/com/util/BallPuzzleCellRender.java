@@ -11,7 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.table.DefaultTableCellRenderer;
 
 public class BallPuzzleCellRender extends DefaultTableCellRenderer implements Icon {
-    private static final int SIZE = 32;
+    private static final int SIZE = Config.BALL_WIDTH;
     Color color;
 
     public BallPuzzleCellRender() {
