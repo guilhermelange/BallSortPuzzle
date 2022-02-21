@@ -1,5 +1,6 @@
 package br.com.plugins;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -18,6 +19,7 @@ public class BuscaProfundidade<E extends Estado> extends Busca<E> {
     private static HashSet<Estado> logs = new HashSet();
     private static long count = 0;
     protected int profMax = 40;
+    private long segundosExecucao;
 
     /** busca sem mostrar status */
     public BuscaProfundidade() {
@@ -43,7 +45,7 @@ public class BuscaProfundidade<E extends Estado> extends Busca<E> {
     public Nodo busca(Estado inicial) {
         status.inicia();
         initFechados();
-        
+        Date dataInicial = new Date();
         List<Nodo> abertos = new LinkedList<Nodo>();
         
         abertos.add(new Nodo(inicial, null));
@@ -57,7 +59,12 @@ public class BuscaProfundidade<E extends Estado> extends Busca<E> {
                 continue;
             }
             
-            System.out.println("Possibilidades: " + (++count));
+            long seconds = Math.abs((new Date()).getTime() - dataInicial.getTime())/1000;
+            if (seconds > segundosExecucao) {
+                segundosExecucao = seconds;
+                gravarLog("Em andamento");
+            }
+            
             status.explorando(n,abertos.size());
             if (n.estado.ehMeta()) {
                 status.termina(true);
@@ -72,6 +79,11 @@ public class BuscaProfundidade<E extends Estado> extends Busca<E> {
         status.termina(false);
         return null;
     }        
+    
+    private void gravarLog(String statusGeral) {
+        long tempoDecorrido = status.getTempoDecorrido()/1000;
+        System.out.println(String.format("Status: (%s)\n  Tempo(segundos): %d\n  Profundidade: %d\n  Qtd. Visitados: %d\n", statusGeral, tempoDecorrido, status.getProfundidade(), status.getVisitados()));
+    }
     
     public String toString() {
     	return "BP - Busca em Profundidade";

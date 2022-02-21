@@ -6,6 +6,7 @@ import br.com.util.Util;
 import java.awt.Dimension;
 import java.util.ArrayList;
 import br.com.plugins.Busca;
+import br.com.plugins.Status;
 
 public class Result extends javax.swing.JFrame {
     private final int MIN_WIDTH = 420;
@@ -14,12 +15,14 @@ public class Result extends javax.swing.JFrame {
     private int sizeSolution = 0;
     private String tempoExecucao = "";
     private int profundidade = 0;
+    private Status status;
     
     public Result(Busca<BallSortPuzzle> search, BallSortPuzzle inicialSet) {
         initComponents();
         Util.centerFrame(this);
         jLmensagem.setText("Carregando solução");
         long timeInit = System.currentTimeMillis();
+        status = search.getStatus();
         Nodo result = null;
         try {
             result = search.busca(inicialSet);
@@ -37,6 +40,7 @@ public class Result extends javax.swing.JFrame {
         if (result == null) {
             jLmensagem.setText("Solução não localizada - Tempo: " + tempoExecucao);
         } else {
+            System.out.println(String.format("Status: \n  Tempo: %s\n  Profundidade: %d\n  Qtd. Visitados: %d\n", tempoExecucao, status.getProfundidade(), status.getVisitados()));
             indexSolution = 0;
             profundidade = result.getProfundidade();
             Nodo w = result;

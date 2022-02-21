@@ -1,5 +1,6 @@
 package br.com.plugins;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.PriorityQueue;
 import java.util.Queue;
@@ -14,8 +15,9 @@ import java.util.Queue;
  *  
  */
 public class BuscaLargura<E extends Estado> extends Busca<E> {
-    private static HashSet<Estado> logs = new HashSet();
+    private HashSet<Estado> logs = new HashSet();
     private static long count = 0;
+    private long segundosExecucao;
     /** busca sem mostrar status */
     public BuscaLargura() {
     }
@@ -23,6 +25,7 @@ public class BuscaLargura<E extends Estado> extends Busca<E> {
     /** busca mostrando status */
     public BuscaLargura(MostraStatusConsole ms) {
         super(ms);
+        MostraStatusConsole mostraStatus = ms;
     }
 
     public Nodo busca(E inicial) {
@@ -31,6 +34,7 @@ public class BuscaLargura<E extends Estado> extends Busca<E> {
         Queue<Nodo> abertos = new PriorityQueue<Nodo>();
         Nodo nodoInicial = new Nodo(inicial, null);
         abertos.add(nodoInicial);
+        Date dataInicial = new Date();
         
         while (!parar && abertos.size() > 0) {
             Nodo n = abertos.remove();
@@ -40,7 +44,12 @@ public class BuscaLargura<E extends Estado> extends Busca<E> {
                 continue;
             }
             
-            System.out.println("Possibilidades: " + (++count));
+            long seconds = Math.abs((new Date()).getTime() - dataInicial.getTime())/1000;
+            if (seconds > segundosExecucao) {
+                segundosExecucao = seconds;
+                gravarLog("Em andamento");
+            }
+            
             status.explorando(n, abertos.size());
 
             if (n.estado.ehMeta()) {
@@ -49,10 +58,16 @@ public class BuscaLargura<E extends Estado> extends Busca<E> {
             }
 
             logs.add(estado);
-            abertos.addAll(sucessores(n));   
+            abertos.addAll(sucessores(n));
         }
         status.termina(false);
+        
         return null;
+    }
+
+    private void gravarLog(String statusGeral) {
+        long tempoDecorrido = status.getTempoDecorrido()/1000;
+        System.out.println(String.format("Status: (%s)\n  Tempo(segundos): %d\n  Profundidade: %d\n  Qtd. Visitados: %d\n", statusGeral, tempoDecorrido, status.getProfundidade(), status.getVisitados()));
     }
     
     public String toString() {
