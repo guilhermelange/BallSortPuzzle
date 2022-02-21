@@ -16,8 +16,6 @@ import java.util.List;
  *  
  */
 public class BuscaProfundidade<E extends Estado> extends Busca<E> {
-    private static HashSet<Estado> logs = new HashSet();
-    private static long count = 0;
     protected int profMax = 40;
     private long segundosExecucao;
 
@@ -51,13 +49,7 @@ public class BuscaProfundidade<E extends Estado> extends Busca<E> {
         abertos.add(new Nodo(inicial, null));
         
         while (!parar && abertos.size() > 0) {
-            
             Nodo n = abertos.remove(0);
-            Estado estado = n.estado;
-            
-            if (logs.contains(estado)) {
-                continue;
-            }
             
             long seconds = Math.abs((new Date()).getTime() - dataInicial.getTime())/1000;
             if (seconds > segundosExecucao) {
@@ -72,7 +64,6 @@ public class BuscaProfundidade<E extends Estado> extends Busca<E> {
             }
         
             if (n.getProfundidade() < profMax) {
-                logs.add(estado);
                 abertos.addAll( 0, sucessores(n) );
             }            
         }

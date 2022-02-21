@@ -15,8 +15,6 @@ import java.util.Queue;
  *  
  */
 public class BuscaLargura<E extends Estado> extends Busca<E> {
-    private HashSet<Estado> logs = new HashSet();
-    private static long count = 0;
     private long segundosExecucao;
     /** busca sem mostrar status */
     public BuscaLargura() {
@@ -38,11 +36,6 @@ public class BuscaLargura<E extends Estado> extends Busca<E> {
         
         while (!parar && abertos.size() > 0) {
             Nodo n = abertos.remove();
-            Estado estado = n.estado;
-            
-            if (logs.contains(estado)) {
-                continue;
-            }
             
             long seconds = Math.abs((new Date()).getTime() - dataInicial.getTime())/1000;
             if (seconds > segundosExecucao) {
@@ -57,7 +50,6 @@ public class BuscaLargura<E extends Estado> extends Busca<E> {
                 return n;
             }
 
-            logs.add(estado);
             abertos.addAll(sucessores(n));
         }
         status.termina(false);
