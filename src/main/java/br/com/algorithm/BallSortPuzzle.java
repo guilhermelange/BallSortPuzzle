@@ -64,10 +64,6 @@ public class BallSortPuzzle implements Estado {
         } else if (stack.size() == 0) {
             return false;
         } else {
-            boolean homogeneous = isHomogeneous(stack);
-            if (homogeneous && stack.size() >= SIZE-1) {
-                return false;
-            }
             return true;
         }
     }
@@ -83,28 +79,18 @@ public class BallSortPuzzle implements Estado {
         
         for (int i = 0; i < stacks.size(); i++) { 
             ArrayStack stack = stacks.get(i);
-            // Valida tubo para jogada
-            if (stackAvailable(stack)) {
+            
+            if (stackAvailable(stack)) { // Valida tubo para jogada
                 Ball ball = (Ball) stack.top();
                 String hexColor = ball.getColor().getHexCode();
                 
-                // Verifica tubos disponíveis
-                for (int j = 0; j < stacks.size(); j++) { 
+                for (int j = 0; j < stacks.size(); j++) { // Verifica tubos disponíveis
                     ArrayStack otherStack = stacks.get(j);
                     if (otherStack != stack) {
                         Ball otherBall = (Ball) otherStack.top();
                         String currentHexCode = (otherBall != null) ? otherBall.getColor().getHexCode() : null;
-                        boolean isValidPlay = false;
-
-                        if (stack.size() == 1 && otherStack.size() == 0) {// Não gera uma nova possibilidade
-                            isValidPlay = false;
-                        } else if (otherStack.size() == 0) {
-                            isValidPlay = true;
-                        } else if (otherStack.size() < SIZE && currentHexCode.equals(hexColor)) {
-                           isValidPlay = true;
-                        }
-
-                        if (isValidPlay) { 
+                        
+                        if (otherStack.size() == 0 || (otherStack.size() < SIZE && currentHexCode.equals(hexColor))) { 
                             ArrayList<ArrayStack> stacksClone = new ArrayList<>();
                             for (ArrayStack stackCloneItem : stacks) {
                                 ArrayStack clone = (ArrayStack) stackCloneItem.clone();
@@ -138,6 +124,4 @@ public class BallSortPuzzle implements Estado {
         BallSortPuzzle other = (BallSortPuzzle) obj;
         return other.toString().equals(this.toString());
     }
-    
-    
 }
