@@ -51,8 +51,10 @@ public class Util {
                 String[] split = data.split(";");
                 
                 switch(split[0]) {
-                    case "C" -> colors.add(new BallColor(split[1], split[2]));
-                    case "T" -> {
+                    case "C":
+                        colors.add(new BallColor(split[1], split[2]));
+                        break;
+                    case "T": {
                         ArrayStack stack = new ArrayStack();
                         
                         for (int i = 1; i < (Config.STACK_CAP+1); i++) {
@@ -62,8 +64,10 @@ public class Util {
                         }
                         
                         stacks.add(stack);
+                        break;
                     }
-                    default -> throw new Exception("Registro " + split[0] + " inválido");
+                    default: 
+                        throw new Exception("Registro " + split[0] + " inválido");
                 }
             }
             
